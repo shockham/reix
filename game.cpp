@@ -102,19 +102,19 @@ bool Game::init(){
     //Set caption
     SDL_WM_SetCaption( "Framework", NULL );
 
-    tiles[0].load_image("tile1.png");
-    tiles[1].load_image("tile2.png");
+    tiles[0].load_image("stuff/tile1.png");
+    tiles[1].load_image("stuff/tile2.png");
 
-    background.load_image("bg.png");
+    background.load_image("stuff/bg.png");
     background.width = SCREEN_WIDTH;
     background.height = SCREEN_HEIGHT;
 
-    player.load_image("cap_man.png");
+    player.load_image("stuff/cap_man.png");
     player.movement = 2.f;
     player.x = player.width;
     player.y = player.height;
 
-    enemy.load_image("bad_man.png");
+    enemy.load_image("stuff/bad_man.png");
     enemy.x = SCREEN_WIDTH - (enemy.width*2);
     enemy.y = enemy.height;
     enemy.movement = 2.f;
