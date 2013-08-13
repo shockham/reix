@@ -5,51 +5,32 @@
 
 class Game{
     private:
+        static const int SCREEN_WIDTH = 640;
+        static const int SCREEN_HEIGHT = 480;
+        static const int SCREEN_BPP = 32;
+        static const int FRAMES_PER_SECOND = 60;
+        static const float TILE_WIDTH = 64.f;
+        static const int MAP_HEIGHT = 10;
+        static const int MAP_WIDTH = 10;
         bool initGL();
         bool init();
         void render();
         void update();
         void clean_up();
     public:
+        SDL_Event event;
+        bool keysHeld[323];
+        int map[MAP_HEIGHT][MAP_WIDTH];
         Game();
         bool overlap(Sprite A, Sprite B);
         void collide(Sprite A, Sprite B);
 
 };
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-const int SCREEN_BPP = 32;
-
-const int FRAMES_PER_SECOND = 60;
-
-//Event handler
-SDL_Event event;
-
-//keys down
-bool keysHeld[323] = {false};
-
 Sprite player;
 Sprite enemy;
 Sprite background;
 Sprite tiles[2];
-
-const float TILE_WIDTH = 64.f;
-const int MAP_HEIGHT = 10;
-const int MAP_WIDTH = 10;
-
-int map[MAP_HEIGHT][MAP_WIDTH] = {
-    {1,1,1,1,1,1,1,1,1,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,2,2,2,2,2,2,2,2,1},
-    {1,2,2,2,2,2,2,2,2,1},
-    {1,2,2,2,2,2,2,2,2,1}
-};
 
 bool Game::initGL(){
     glEnable( GL_TEXTURE_2D );
@@ -77,7 +58,7 @@ bool Game::initGL(){
     //Check for error
     GLenum error = glGetError();
     if(error != GL_NO_ERROR){
-        printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+        // printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
         return false;
     }
 
@@ -244,6 +225,22 @@ void Game::clean_up(){
 Game::Game(){
     //Quit flag
     bool quit = false;
+
+    for (int i = 0; i < 323; ++i) keysHeld[i] = false;
+
+    int map_cpy[MAP_HEIGHT][MAP_WIDTH] = {
+        {1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,1},
+        {1,2,2,2,2,2,2,2,2,1},
+        {1,2,2,2,2,2,2,2,2,1},
+        {1,2,2,2,2,2,2,2,2,1}
+    };
+    memcpy(map, map_cpy, sizeof map);
 
     //Initialize
     if(init()){
