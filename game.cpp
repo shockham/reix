@@ -23,8 +23,7 @@ class Game{
         int map[MAP_HEIGHT][MAP_WIDTH];
         Game();
         bool overlap(Sprite A, Sprite B);
-        void collide(Sprite A, Sprite B);
-
+        void collide(Sprite& A, Sprite& B);
 };
 
 Sprite player;
@@ -132,9 +131,45 @@ bool Game::overlap(Sprite A, Sprite B){
     return true;
 }
 
-void Game::collide(Sprite A, Sprite B){
+void Game::collide(Sprite& A, Sprite& B){
     if(overlap(A, B)){
         //break apart
+        //The sides of the rectangles
+        float leftA, leftB;
+        float rightA, rightB;
+        float topA, topB;
+        float bottomA, bottomB;
+
+        //Calculate the sides of rect A
+        leftA = A.x;
+        rightA = A.x + A.width;
+        topA = A.y;
+        bottomA = A.y + A.height;
+            
+        //Calculate the sides of rect B
+        leftB = B.x;
+        rightB = B.x + B.width;
+        topB = B.y;
+        bottomB = B.y + B.height;
+
+        float bottom_diff = abs(bottomA - topB);
+        float top_diff = abs(topA - bottomB);
+        float right_diff = abs(rightA - leftB);
+        float left_diff = abs(leftA - rightB);
+
+        if(bottom_diff < top_diff && bottom_diff < right_diff && bottom_diff < left_diff){
+            A.y -= bottom_diff;
+            B.y += bottom_diff;
+        }else if(top_diff < right_diff && top_diff < left_diff){
+            A.y += top_diff;
+            B.y -= top_diff;
+        }else if(right_diff < left_diff){
+            A.x -= right_diff;
+            B.x += right_diff;
+        }else{
+            A.x += left_diff;
+            B.x -= left_diff;
+        }
     }
 }
 
@@ -143,48 +178,17 @@ void Game::update(){
     player.update();
     enemy.update();
 
-    if(keysHeld[SDLK_d]){ 
-        player.x += player.movement;
-        if(overlap(player, enemy)) player.x -= player.movement;
-    }
-    if(keysHeld[SDLK_w]){
-        player.y -= player.movement;
-        if(overlap(player, enemy)) player.y += player.movement;
-    }
-    if(keysHeld[SDLK_a]){
-        player.x -= player.movement;
-        if(overlap(player, enemy)) player.x += player.movement;
-    }
-    if(keysHeld[SDLK_s]){
-        player.y += player.movement;
-        if(overlap(player, enemy)) player.y -= player.movement;
-    }
+    if(keysHeld[SDLK_d]) player.x += player.movement;
+    if(keysHeld[SDLK_w]) player.y -= player.movement;
+    if(keysHeld[SDLK_a]) player.x -= player.movement;
+    if(keysHeld[SDLK_s]) player.y += player.movement;
 
-    if(keysHeld[SDLK_RIGHT]){
-        enemy.x += enemy.movement;
-        if(overlap(player, enemy)) enemy.x -= player.movement;
-    }
-    if(keysHeld[SDLK_UP]){
-        enemy.y -= enemy.movement;
-        if(overlap(player, enemy)) enemy.y += enemy.movement;
-    }
-    if(keysHeld[SDLK_LEFT]){
-        enemy.x -= enemy.movement;
-        if(overlap(player, enemy)) enemy.x += enemy.movement;
-    }
-    if(keysHeld[SDLK_DOWN]){
-        enemy.y += enemy.movement;
-        if(overlap(player, enemy)) enemy.y -= enemy.movement;
-    }
+    if(keysHeld[SDLK_RIGHT]) enemy.x += enemy.movement;
+    if(keysHeld[SDLK_UP]) enemy.y -= enemy.movement;
+    if(keysHeld[SDLK_LEFT]) enemy.x -= enemy.movement;
+    if(keysHeld[SDLK_DOWN]) enemy.y += enemy.movement;
 
-    // if(player.y < 400){
-    //     player.y++;
-    //     if(overlap(player, enemy)) player.y--;
-    // }
-    // if(enemy.y < 400){
-    //     enemy.y++;
-    //     if(overlap(player, enemy)) player.y--;
-    // }
+    collide(player, enemy);
 }
 
 void Game::render(){
