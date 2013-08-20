@@ -205,11 +205,15 @@ void Game::render(){
                     tiles[0].x = TILE_WIDTH * j;
                     tiles[0].y = TILE_WIDTH * i;
                     tiles[0].render();
+                    collide(tiles[0], player);
+                    collide(tiles[0], enemy);
                     break;
                 case 2:
                     tiles[1].x = TILE_WIDTH * j;
                     tiles[1].y = TILE_WIDTH * i;
                     tiles[1].render();
+                    collide(tiles[1], player);
+                    collide(tiles[1], enemy);
             }
         }
     }
