@@ -1,5 +1,5 @@
-#include "SDL/SDL.h"
-#include "SDL/SDL_opengl.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_opengl.h"
 #include "timer.cpp"
 #include "sprite.cpp"
 
@@ -19,6 +19,8 @@ class Game{
         void clean_up();
     public:
         SDL_Event event;
+        SDL_Window *window;
+        SDL_GLContext glcontext;
         bool keysHeld[323];
         int map[MAP_HEIGHT][MAP_WIDTH];
         Game();
@@ -40,7 +42,7 @@ bool Game::initGL(){
     //Initialize clear color
     glClearColor( 0.f, 0.f, 0.f, 1.f );
 
-    glViewport( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
+    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     glClear( GL_COLOR_BUFFER_BIT );
 
@@ -57,7 +59,7 @@ bool Game::initGL(){
     //Check for error
     GLenum error = glGetError();
     if(error != GL_NO_ERROR){
-        // printf( "Error initializing OpenGL! %s\n", gluErrorString( error ) );
+        printf( "Error initializing OpenGL!" );
         return false;
     }
 
@@ -66,21 +68,18 @@ bool Game::initGL(){
 
 bool Game::init(){
     //Initialize SDL
-    if(SDL_Init( SDL_INIT_EVERYTHING ) < 0) return false;
+    if(SDL_Init( SDL_INIT_EVERYTHING ) < 0){
+        return false;
+    }
 
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
     //Create Window
-    if(SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_OPENGL | SDL_RESIZABLE ) == NULL) return false;
-
-    //Enable unicode
-    SDL_EnableUNICODE( SDL_TRUE );
+    window = SDL_CreateWindow("Reix", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+    glcontext = SDL_GL_CreateContext(window);
 
     //Initialize OpenGL
     if(initGL() == false) return false;
-
-    //Set caption
-    SDL_WM_SetCaption( "Framework", NULL );
 
     tiles[0].load_image("stuff/tile1.png");
     tiles[1].load_image("stuff/tile2.png");
@@ -183,10 +182,10 @@ void Game::update(){
     if(keysHeld[SDLK_a]) player.x -= player.movement;
     if(keysHeld[SDLK_s]) player.y += player.movement;
 
-    if(keysHeld[SDLK_RIGHT]) enemy.x += enemy.movement;
-    if(keysHeld[SDLK_UP]) enemy.y -= enemy.movement;
-    if(keysHeld[SDLK_LEFT]) enemy.x -= enemy.movement;
-    if(keysHeld[SDLK_DOWN]) enemy.y += enemy.movement;
+    if(keysHeld[SDLK_l]) enemy.x += enemy.movement;
+    if(keysHeld[SDLK_i]) enemy.y -= enemy.movement;
+    if(keysHeld[SDLK_j]) enemy.x -= enemy.movement;
+    if(keysHeld[SDLK_k]) enemy.y += enemy.movement;
 
     collide(player, enemy);
 }
@@ -222,11 +221,13 @@ void Game::render(){
     player.render();
 
     //Update screen
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(window);
+
 }
 
 void Game::clean_up(){
     //Quit SDL
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
@@ -240,8 +241,8 @@ Game::Game(){
         {1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,2,0,0,0,1},
+        {1,0,0,0,0,2,0,0,0,1},
         {1,0,0,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,0,0,1},
         {1,2,2,2,2,2,2,2,2,1},
@@ -264,10 +265,10 @@ Game::Game(){
                 if(event.type == SDL_QUIT) quit = true;
                 else if( event.type == SDL_KEYDOWN ) keysHeld[event.key.keysym.sym] = true;
                 else if( event.type == SDL_KEYUP ) keysHeld[event.key.keysym.sym] = false;
-                else if( event.type == SDL_VIDEORESIZE ){
+                // else if( event.type == SDL_VIDEORESIZE ){
                     // glViewport( 0, 0, event.resize.w, event.resize.h );
                     // glOrtho(0.0f, event.resize.w, event.resize.h, 0.0f, -1.0f, 1.0f);
-                }
+                // }
             }
             //Run frame update
             update();

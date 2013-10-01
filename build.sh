@@ -3,4 +3,5 @@ make clean
 echo "building"
 make
 echo "running"
-open ./Game.app
+# open ./Game.app
+./Game

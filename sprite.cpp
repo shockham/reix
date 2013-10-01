@@ -1,4 +1,4 @@
-#include "SDL/SDL_image.h"
+#include "SDL2_image/SDL_image.h"
 
 class Sprite{
 	private:
