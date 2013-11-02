@@ -29,15 +29,15 @@ Sprite::Sprite(){
 
 int Sprite::load_image(const char* img_path){
     if((surface = IMG_Load(img_path))){ 
-        // printf("loading image\n");
+
         // Check that the image's width is a power of 2
         if ((surface->w & (surface->w - 1)) != 0 ){
-            // printf("warning: image.bmp's width is not a power of 2\n");
+            // warning: image width is not a power of 2
         }
      
         // Also check if the height is a power of 2
         if ((surface->h & (surface->h - 1)) != 0 ){
-            // printf("warning: image.bmp's height is not a power of 2\n");
+            // warning: image height is not a power of 2
         }
      
         // get the number of channels in the SDL surface
@@ -67,7 +67,7 @@ int Sprite::load_image(const char* img_path){
         glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,
                           texture_format, GL_UNSIGNED_BYTE, surface->pixels );
     }else{
-        // printf("SDL could not load image.bmp: %s\n", SDL_GetError());
+        // SDL could not load image
         SDL_Quit();
         return false;
     }    
@@ -76,6 +76,8 @@ int Sprite::load_image(const char* img_path){
     if ( surface ) { 
         SDL_FreeSurface( surface );
     }
+
+    return true;
 }
 
 void Sprite::update(){

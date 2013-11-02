@@ -197,8 +197,8 @@ void Game::render(){
     background.render();
 
     for (int i = 0; i < MAP_HEIGHT; ++i){
-        for (int j = 0; j < MAP_WIDTH; ++j)
-        {
+        for (int j = 0; j < MAP_WIDTH; ++j){
+            
             switch(map[i][j]){
                 case 1:
                     tiles[0].x = TILE_WIDTH * j;
