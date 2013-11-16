@@ -173,20 +173,24 @@ void Game::collide(Sprite& A, Sprite& B){
 }
 
 void Game::update(){
+    //update the other stuff
     background.update();
     player.update();
     enemy.update();
 
+    //keys for player one movement
     if(keysHeld[SDLK_d]) player.x += player.movement;
     if(keysHeld[SDLK_w]) player.y -= player.movement;
     if(keysHeld[SDLK_a]) player.x -= player.movement;
     if(keysHeld[SDLK_s]) player.y += player.movement;
 
+    //key for player two movement
     if(keysHeld[SDLK_l]) enemy.x += enemy.movement;
     if(keysHeld[SDLK_i]) enemy.y -= enemy.movement;
     if(keysHeld[SDLK_j]) enemy.x -= enemy.movement;
     if(keysHeld[SDLK_k]) enemy.y += enemy.movement;
 
+    //check the collisions on them
     collide(player, enemy);
 }
 
@@ -217,6 +221,7 @@ void Game::render(){
         }
     }
 
+    //render the enemy and the player
     enemy.render();
     player.render();
 
@@ -255,20 +260,20 @@ Game::Game(){
     if(init()){
         //The frame rate regulator
         Timer fps;
-        
+
         //Wait for user exit
         while(quit == false){
             //Start the frame timer
             fps.start();
             //While there are events to handle
             while(SDL_PollEvent(&event)){
-                if(event.type == SDL_QUIT) quit = true;
-                else if( event.type == SDL_KEYDOWN ) keysHeld[event.key.keysym.sym] = true;
-                else if( event.type == SDL_KEYUP ) keysHeld[event.key.keysym.sym] = false;
-                // else if( event.type == SDL_VIDEORESIZE ){
-                    // glViewport( 0, 0, event.resize.w, event.resize.h );
-                    // glOrtho(0.0f, event.resize.w, event.resize.h, 0.0f, -1.0f, 1.0f);
-                // }
+                if(event.type == SDL_QUIT){
+                    quit = true;
+                }else if(event.type == SDL_KEYDOWN && event.key.keysym.sym < 323){
+                    keysHeld[event.key.keysym.sym] = true;
+                }else if(event.type == SDL_KEYUP && event.key.keysym.sym < 323){
+                    keysHeld[event.key.keysym.sym] = false;
+                }
             }
             //Run frame update
             update();
