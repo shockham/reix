@@ -30,15 +30,9 @@ Sprite::Sprite(){
 int Sprite::load_image(const char* img_path){
     if((surface = IMG_Load(img_path))){ 
 
-        // Check that the image's width is a power of 2
-        if ((surface->w & (surface->w - 1)) != 0 ){
-            // warning: image width is not a power of 2
-        }
-     
-        // Also check if the height is a power of 2
-        if ((surface->h & (surface->h - 1)) != 0 ){
-            // warning: image height is not a power of 2
-        }
+        if ((surface->w & (surface->w - 1)) != 0 ){ printf("warning: %s image width is not a power of 2\n", img_path); }
+    
+        if ((surface->h & (surface->h - 1)) != 0 ){ printf("Warning: %s image height not a power of 2 \n", img_path); }
      
         // get the number of channels in the SDL surface
         nOfColors = surface->format->BytesPerPixel;
@@ -49,7 +43,7 @@ int Sprite::load_image(const char* img_path){
             if (surface->format->Rmask == 0x000000ff) texture_format = GL_RGB;
             else texture_format = GL_BGR;
         }else{
-                // printf("warning: the image is not truecolor..  this will probably break\n");
+                printf("warning: the image is not truecolor..  this will probably break\n");
                 // this error should not go unhandled
         }
      
@@ -73,16 +67,12 @@ int Sprite::load_image(const char* img_path){
     }    
      
     // Free the SDL_Surface only if it was successfully created
-    if ( surface ) { 
-        SDL_FreeSurface( surface );
-    }
+    if ( surface ) { SDL_FreeSurface( surface ); }
 
     return true;
 }
 
-void Sprite::update(){
-
-}
+void Sprite::update(){ }
 
 void Sprite::render(){
 	glBindTexture( GL_TEXTURE_2D, texture );

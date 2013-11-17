@@ -5,7 +5,18 @@ class ThisGame: public Game{
 		void create();
 		void update();
 		void render();
-		int map[MAP_HEIGHT][MAP_WIDTH];
+		int map[MAP_HEIGHT][MAP_WIDTH] = {
+	        {1,1,1,1,1,1,1,1,1,1},
+	        {1,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,2,0,0,0,1},
+	        {1,0,0,0,0,2,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,1},
+	        {1,0,0,0,0,0,0,0,0,1},
+	        {1,2,2,2,2,2,2,2,2,1},
+	        {1,2,2,2,2,2,2,2,2,1},
+	        {1,2,2,2,2,2,2,2,2,1}
+	    };
 		Sprite player;
 		Sprite enemy;
 		Sprite background;
@@ -31,20 +42,6 @@ void ThisGame::create(){
     enemy.x = SCREEN_WIDTH - (enemy.width*2);
     enemy.y = enemy.height;
     enemy.movement = 2.f;
-
-    int map_cpy[MAP_HEIGHT][MAP_WIDTH] = {
-        {1,1,1,1,1,1,1,1,1,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,2,0,0,0,1},
-        {1,0,0,0,0,2,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,2,2,2,2,2,2,2,2,1},
-        {1,2,2,2,2,2,2,2,2,1},
-        {1,2,2,2,2,2,2,2,2,1}
-    };
-    memcpy(map, map_cpy, sizeof map);
 }
 
 void ThisGame::update(){
