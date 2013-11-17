@@ -9,5 +9,7 @@ Only used on os x right now, so install SDL2 and SDL2_Image.
 
 To build and run:
 ```
-./build.sh
+make clean
+make
+./Game
 ```
