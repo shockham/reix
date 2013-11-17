@@ -5,6 +5,15 @@
 
 class Game{
     private:
+        bool initGL();
+        bool init();
+        void pre_render();
+        void post_render();
+        void clean_up();
+    public:
+        virtual void create() =0;
+        virtual void update() =0;
+        virtual void render() =0;
         static const int SCREEN_WIDTH = 640;
         static const int SCREEN_HEIGHT = 480;
         static const int SCREEN_BPP = 32;
@@ -12,26 +21,15 @@ class Game{
         static const float TILE_WIDTH = 64.f;
         static const int MAP_HEIGHT = 10;
         static const int MAP_WIDTH = 10;
-        bool initGL();
-        bool init();
-        void render();
-        void update();
-        void clean_up();
-    public:
         SDL_Event event;
         SDL_Window *window;
         SDL_GLContext glcontext;
         bool keysHeld[323];
-        int map[MAP_HEIGHT][MAP_WIDTH];
         Game();
+        void start();
         bool overlap(Sprite A, Sprite B);
         void collide(Sprite& A, Sprite& B);
 };
-
-Sprite player;
-Sprite enemy;
-Sprite background;
-Sprite tiles[2];
 
 bool Game::initGL(){
     glEnable( GL_TEXTURE_2D );
@@ -81,22 +79,7 @@ bool Game::init(){
     //Initialize OpenGL
     if(initGL() == false) return false;
 
-    tiles[0].load_image("stuff/tile1.png");
-    tiles[1].load_image("stuff/tile2.png");
-
-    background.load_image("stuff/bg.png");
-    background.width = SCREEN_WIDTH;
-    background.height = SCREEN_HEIGHT;
-
-    player.load_image("stuff/cap_man.png");
-    player.movement = 2.f;
-    player.x = player.width;
-    player.y = player.height;
-
-    enemy.load_image("stuff/bad_man.png");
-    enemy.x = SCREEN_WIDTH - (enemy.width*2);
-    enemy.y = enemy.height;
-    enemy.movement = 2.f;
+    create();
 
     return true;
 }
@@ -172,62 +155,22 @@ void Game::collide(Sprite& A, Sprite& B){
     }
 }
 
-void Game::update(){
-    //update the other stuff
-    background.update();
-    player.update();
-    enemy.update();
+// void Game::create(){
+//     printf("%s\n", "calling base create :(");
+// }
+// void Game::update(){}
+// void Game::render(){}
 
-    //keys for player one movement
-    if(keysHeld[SDLK_d]) player.x += player.movement;
-    if(keysHeld[SDLK_w]) player.y -= player.movement;
-    if(keysHeld[SDLK_a]) player.x -= player.movement;
-    if(keysHeld[SDLK_s]) player.y += player.movement;
-
-    //key for player two movement
-    if(keysHeld[SDLK_l]) enemy.x += enemy.movement;
-    if(keysHeld[SDLK_i]) enemy.y -= enemy.movement;
-    if(keysHeld[SDLK_j]) enemy.x -= enemy.movement;
-    if(keysHeld[SDLK_k]) enemy.y += enemy.movement;
-
-    //check the collisions on them
-    collide(player, enemy);
-}
-
-void Game::render(){
+void Game::pre_render(){
     //Clear color buffer
     glClear( GL_COLOR_BUFFER_BIT );
 
-    background.render();
-
-    for (int i = 0; i < MAP_HEIGHT; ++i){
-        for (int j = 0; j < MAP_WIDTH; ++j){
-            
-            switch(map[i][j]){
-                case 1:
-                    tiles[0].x = TILE_WIDTH * j;
-                    tiles[0].y = TILE_WIDTH * i;
-                    tiles[0].render();
-                    collide(tiles[0], player);
-                    collide(tiles[0], enemy);
-                    break;
-                case 2:
-                    tiles[1].x = TILE_WIDTH * j;
-                    tiles[1].y = TILE_WIDTH * i;
-                    tiles[1].render();
-                    collide(tiles[1], player);
-                    collide(tiles[1], enemy);
-            }
-        }
-    }
-
-    //render the enemy and the player
-    enemy.render();
-    player.render();
-
+    this->render();
+    this->post_render();
+}
+void Game::post_render(){
     //Update screen
     SDL_GL_SwapWindow(window);
-
 }
 
 void Game::clean_up(){
@@ -236,25 +179,13 @@ void Game::clean_up(){
     SDL_Quit();
 }
 
-Game::Game(){
+Game::Game(){}
+
+void Game::start(){
     //Quit flag
     bool quit = false;
 
     for (int i = 0; i < 323; ++i) keysHeld[i] = false;
-
-    int map_cpy[MAP_HEIGHT][MAP_WIDTH] = {
-        {1,1,1,1,1,1,1,1,1,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,2,0,0,0,1},
-        {1,0,0,0,0,2,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,0,1},
-        {1,2,2,2,2,2,2,2,2,1},
-        {1,2,2,2,2,2,2,2,2,1},
-        {1,2,2,2,2,2,2,2,2,1}
-    };
-    memcpy(map, map_cpy, sizeof map);
 
     //Initialize
     if(init()){
@@ -278,7 +209,7 @@ Game::Game(){
             //Run frame update
             update();
             //Render frame
-            render();
+            pre_render();
             //Cap the frame rate
             if(fps.get_ticks() < 1000 / FRAMES_PER_SECOND){
                 SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - fps.get_ticks() );
