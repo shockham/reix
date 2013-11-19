@@ -34,14 +34,14 @@ void ThisGame::create(){
     background.height = SCREEN_HEIGHT;
 
     player.load_image("stuff/cap_man.png");
-    player.movement = 2.f;
+    player.movement = 5.f;
     player.x = player.width;
     player.y = player.height;
 
     enemy.load_image("stuff/bad_man.png");
     enemy.x = SCREEN_WIDTH - (enemy.width*2);
     enemy.y = enemy.height;
-    enemy.movement = 2.f;
+    enemy.movement = 5.f;
 }
 
 void ThisGame::update(){
