@@ -155,12 +155,6 @@ void Game::collide(Sprite& A, Sprite& B){
     }
 }
 
-// void Game::create(){
-//     printf("%s\n", "calling base create :(");
-// }
-// void Game::update(){}
-// void Game::render(){}
-
 void Game::pre_render(){
     //Clear color buffer
     glClear( GL_COLOR_BUFFER_BIT );
