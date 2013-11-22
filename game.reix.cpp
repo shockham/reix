@@ -1,7 +1,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
-#include "timer.cpp"
-#include "sprite.cpp"
+#include "timer.reix.cpp"
+#include "sprite.reix.cpp"
 
 class Game{
     private:
@@ -14,13 +14,10 @@ class Game{
         virtual void create() =0;
         virtual void update() =0;
         virtual void render() =0;
-        static const int SCREEN_WIDTH = 640;
-        static const int SCREEN_HEIGHT = 480;
+        static const int SCREEN_WIDTH = 1280;
+        static const int SCREEN_HEIGHT = 800;
         static const int SCREEN_BPP = 32;
         static const int FRAMES_PER_SECOND = 60;
-        static const float TILE_WIDTH = 64.f;
-        static const int MAP_HEIGHT = 10;
-        static const int MAP_WIDTH = 10;
         SDL_Event event;
         SDL_Window *window;
         SDL_GLContext glcontext;

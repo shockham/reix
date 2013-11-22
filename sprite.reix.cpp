@@ -14,6 +14,7 @@ class Sprite{
 		float height;
 		float movement;
 		Sprite();
+        ~Sprite();
 		int load_image(const char* img_path);
 		void update();
 		void render();
@@ -25,6 +26,10 @@ Sprite::Sprite(){
 	width = 64.f;
 	height = 64.f;
 	movement = 1.f;
+}
+
+Sprite::~Sprite(){
+    
 }
 
 int Sprite::load_image(const char* img_path){
