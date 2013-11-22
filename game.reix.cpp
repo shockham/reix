@@ -15,12 +15,13 @@ class Game{
         virtual void update() =0;
         virtual void render() =0;
         static const int SCREEN_WIDTH = 1280;
-        static const int SCREEN_HEIGHT = 800;
+        static const int SCREEN_HEIGHT = 720;
         static const int SCREEN_BPP = 32;
         static const int FRAMES_PER_SECOND = 60;
         SDL_Event event;
         SDL_Window *window;
         SDL_GLContext glcontext;
+        Timer fps;
         bool keysHeld[323];
         Game();
         void start();
@@ -181,7 +182,7 @@ void Game::start(){
     //Initialize
     if(init()){
         //The frame rate regulator
-        Timer fps;
+        // Timer fps;
 
         //Wait for user exit
         while(quit == false){

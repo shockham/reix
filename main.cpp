@@ -20,11 +20,15 @@ class ThisGame: public Game{
 	        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	        {1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1},
 	        {1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1},
 	        {1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1},
 	        {1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1}
 	    };
+
+	    Sprite splash;
+	    int splash_timer;
+
 		Sprite player;
 		Sprite enemy;
 		Sprite background;
@@ -41,6 +45,11 @@ void ThisGame::create(){
     background.width = SCREEN_WIDTH;
     background.height = SCREEN_HEIGHT;
 
+    splash.load_image("stuff/splash.png");
+    splash.width = SCREEN_WIDTH;
+    splash.height = SCREEN_HEIGHT;
+    splash_timer = 0;
+
     player.load_image("stuff/cap_man.png");
     player.movement = 5.f;
     player.x = player.width;
@@ -54,7 +63,7 @@ void ThisGame::create(){
 
 void ThisGame::update(){
     //update the other stuff
-    background.update();
+    // background.update(); // don't think this needs updating
     player.update();
     enemy.update();
 
@@ -102,6 +111,10 @@ void ThisGame::render(){
     enemy.render();
     player.render();
 
+    if(splash_timer < 60){
+    	splash_timer += fps.get_ticks();
+    	splash.render();
+    }
 }
 
 
