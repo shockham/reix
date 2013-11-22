@@ -27,6 +27,7 @@ class ThisGame: public Game{
 	    };
 
 	    Sprite splash;
+	    Sprite title;
 	    int splash_timer;
 
 		Sprite player;
@@ -49,6 +50,10 @@ void ThisGame::create(){
     splash.width = SCREEN_WIDTH;
     splash.height = SCREEN_HEIGHT;
     splash_timer = 0;
+
+    title.load_image("stuff/title.png");
+    title.width = SCREEN_WIDTH/4;
+    title.height = SCREEN_HEIGHT/4;
 
     player.load_image("stuff/cap_man.png");
     player.movement = 5.f;
@@ -114,6 +119,9 @@ void ThisGame::render(){
     if(splash_timer < 60){
     	splash_timer += fps.get_ticks();
     	splash.render();
+    }else if(splash_timer < 120){
+    	splash_timer += fps.get_ticks();
+    	title.render();
     }
 }
 
