@@ -2,6 +2,7 @@
 #include "SDL2/SDL_opengl.h"
 #include "timer.reix.cpp"
 #include "sprite.reix.cpp"
+#include "sound.reix.cpp"
 
 class Game{
     private:

@@ -35,6 +35,8 @@ class ThisGame: public Game{
 		Sprite background;
 		Sprite tiles[2];
 
+		Sound minmin;
+
 };
 
 void ThisGame::create(){
@@ -64,6 +66,9 @@ void ThisGame::create(){
     enemy.x = SCREEN_WIDTH - (enemy.width*2);
     enemy.y = enemy.height;
     enemy.movement = 5.f;
+
+    minmin.load_sound("stuff/minminzemi.wav");
+    minmin.play();
 }
 
 void ThisGame::update(){
