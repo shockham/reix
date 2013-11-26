@@ -45,7 +45,7 @@ void Sound::load_sound(const char* snd_path){
 
 void Sound::play(){
 	SDL_PauseAudio(0);
-	
+
 	// while ( audio_len > 0 ) {
 	// 	SDL_Delay(100);
 	// }
@@ -55,10 +55,13 @@ void Sound::play(){
 }
 
 void Sound::stop(){
-
+	SDL_PauseAudio(1);
 }
 
 void Sound::audio_callback(void *userdata, Uint8 *stream, int len){
+	//restores older sdl behaviour, need to fix properly
+	SDL_memset(stream, 0, len);
+
 	Sound * user_sound = static_cast<Sound *>(userdata);
 
 	if (user_sound->audio_len ==0) return;

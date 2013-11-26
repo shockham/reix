@@ -69,6 +69,7 @@ void ThisGame::create(){
 
     minmin.load_sound("stuff/minminzemi.wav");
     minmin.play();
+    // minmin.stop();
 }
 
 void ThisGame::update(){
