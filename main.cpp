@@ -67,9 +67,8 @@ void ThisGame::create(){
     enemy.y = enemy.height;
     enemy.movement = 5.f;
 
-    minmin.load_sound("stuff/minminzemi.wav");
+    minmin.load_sound("./stuff/minminzemi.wav");
     minmin.play();
-    // minmin.stop();
 }
 
 void ThisGame::update(){
