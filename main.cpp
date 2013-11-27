@@ -1,6 +1,6 @@
-#include "game.reix.cpp"
+#include "core.reix.cpp"
 
-class ThisGame: public Game{
+class ThisGame: public Core{
 	public:
 		static const float TILE_WIDTH = 64.f;
         static const int MAP_HEIGHT = 15;

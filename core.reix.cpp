@@ -4,7 +4,7 @@
 #include "sprite.reix.cpp"
 #include "sound.reix.cpp"
 
-class Game{
+class Core{
     private:
         bool initGL();
         bool init();
@@ -24,13 +24,13 @@ class Game{
         SDL_GLContext glcontext;
         Timer fps;
         bool keysHeld[323];
-        Game();
+        Core();
         void start();
         bool overlap(Sprite A, Sprite B);
         void collide(Sprite& A, Sprite& B);
 };
 
-bool Game::initGL(){
+bool Core::initGL(){
     glEnable( GL_TEXTURE_2D );
 
     glEnable(GL_BLEND);
@@ -63,7 +63,7 @@ bool Game::initGL(){
     return true;
 }
 
-bool Game::init(){
+bool Core::init(){
     //Initialize SDL
     if(SDL_Init( SDL_INIT_EVERYTHING ) < 0){
         return false;
@@ -83,7 +83,7 @@ bool Game::init(){
     return true;
 }
 
-bool Game::overlap(Sprite A, Sprite B){
+bool Core::overlap(Sprite A, Sprite B){
     //The sides of the rectangles
     float leftA, leftB;
     float rightA, rightB;
@@ -112,7 +112,7 @@ bool Game::overlap(Sprite A, Sprite B){
     return true;
 }
 
-void Game::collide(Sprite& A, Sprite& B){
+void Core::collide(Sprite& A, Sprite& B){
     if(overlap(A, B)){
         //break apart
         //The sides of the rectangles
@@ -154,27 +154,27 @@ void Game::collide(Sprite& A, Sprite& B){
     }
 }
 
-void Game::pre_render(){
+void Core::pre_render(){
     //Clear color buffer
     glClear( GL_COLOR_BUFFER_BIT );
 
     this->render();
     this->post_render();
 }
-void Game::post_render(){
+void Core::post_render(){
     //Update screen
     SDL_GL_SwapWindow(window);
 }
 
-void Game::clean_up(){
+void Core::clean_up(){
     //Quit SDL
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
-Game::Game(){}
+Core::Core(){}
 
-void Game::start(){
+void Core::start(){
     //Quit flag
     bool quit = false;
 
