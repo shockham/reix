@@ -26,14 +26,14 @@ class ThisGame: public Core{
 	        {1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1}
 	    };
 
-	    Sprite splash;
-	    Sprite title;
+	    Entity splash;
+	    Entity title;
 	    int splash_timer;
 
-		Sprite player;
-		Sprite enemy;
-		Sprite background;
-		Sprite tiles[2];
+		Entity player;
+		Entity enemy;
+		Entity background;
+		Entity tiles[2];
 
 		Sound minmin;
 
@@ -43,7 +43,7 @@ void ThisGame::create(){
 	tiles[0].load_image("stuff/tile1.png");
     tiles[1].load_image("stuff/tile2.png");
 
-    //make the sprites
+    //make the entities
     background.load_image("stuff/bg.png");
     background.width = SCREEN_WIDTH;
     background.height = SCREEN_HEIGHT;

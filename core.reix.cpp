@@ -1,7 +1,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
 #include "timer.reix.cpp"
-#include "sprite.reix.cpp"
+#include "entity.reix.cpp"
 #include "sound.reix.cpp"
 
 class Core{
@@ -26,8 +26,8 @@ class Core{
         bool keysHeld[323];
         Core();
         void start();
-        bool overlap(Sprite A, Sprite B);
-        void collide(Sprite& A, Sprite& B);
+        bool overlap(Entity A, Entity B);
+        void collide(Entity& A, Entity& B);
 };
 
 bool Core::initGL(){
@@ -83,7 +83,7 @@ bool Core::init(){
     return true;
 }
 
-bool Core::overlap(Sprite A, Sprite B){
+bool Core::overlap(Entity A, Entity B){
     //The sides of the rectangles
     float leftA, leftB;
     float rightA, rightB;
@@ -112,7 +112,7 @@ bool Core::overlap(Sprite A, Sprite B){
     return true;
 }
 
-void Core::collide(Sprite& A, Sprite& B){
+void Core::collide(Entity& A, Entity& B){
     if(overlap(A, B)){
         //break apart
         //The sides of the rectangles

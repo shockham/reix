@@ -1,6 +1,6 @@
 #include "SDL2_image/SDL_image.h"
 
-class Sprite{
+class Entity{
 	private:
 		GLuint texture;         // This is a handle to our texture object
 		SDL_Surface *surface;   // This surface will tell us the details of the image
@@ -13,14 +13,14 @@ class Sprite{
 		float width;
 		float height;
 		float movement;
-		Sprite();
-        ~Sprite();
+		Entity();
+        ~Entity();
 		int load_image(const char* img_path);
 		void update();
 		void render();
 };
 
-Sprite::Sprite(){
+Entity::Entity(){
 	x = 0.f;
 	y = 0.f;
 	width = 64.f;
@@ -28,11 +28,11 @@ Sprite::Sprite(){
 	movement = 1.f;
 }
 
-Sprite::~Sprite(){
+Entity::~Entity(){
     
 }
 
-int Sprite::load_image(const char* img_path){
+int Entity::load_image(const char* img_path){
     if((surface = IMG_Load(img_path))){ 
 
         if((surface->w & (surface->w - 1)) != 0){ printf("warning: %s image width is not a power of 2\n", img_path); }
@@ -76,9 +76,9 @@ int Sprite::load_image(const char* img_path){
     return true;
 }
 
-void Sprite::update(){ }
+void Entity::update(){ }
 
-void Sprite::render(){
+void Entity::render(){
 	glBindTexture(GL_TEXTURE_2D, texture);
 
     //Render quad
