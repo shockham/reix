@@ -1,4 +1,4 @@
-#include "core.reix.cpp"
+#include "../../modules/core.reix.cpp"
 
 class ThisGame: public Core{
 	public:
