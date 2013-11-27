@@ -31,26 +31,26 @@ class Core{
 };
 
 bool Core::initGL(){
-    glEnable( GL_TEXTURE_2D );
+    glEnable(GL_TEXTURE_2D);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //Initialize clear color
-    glClearColor( 0.f, 0.f, 0.f, 1.f );
+    glClearColor(0.f, 0.f, 0.f, 1.f);
 
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClear(GL_COLOR_BUFFER_BIT);
 
     //Initialize Projection Matrix
-    glMatrixMode( GL_PROJECTION );
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
     glOrtho(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, -1.0f, 1.0f);
 
     //Initialize Modelview Matrix
-    glMatrixMode( GL_MODELVIEW );
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     //Check for error
@@ -65,11 +65,11 @@ bool Core::initGL(){
 
 bool Core::init(){
     //Initialize SDL
-    if(SDL_Init( SDL_INIT_EVERYTHING ) < 0){
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
         return false;
     }
 
-    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     //Create Window
     window = SDL_CreateWindow("Reix", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
@@ -103,10 +103,10 @@ bool Core::overlap(Sprite A, Sprite B){
     bottomB = B.y + B.height;
 
      //If any of the sides from A are outside of B
-    if( bottomA <= topB ) return false;
-    if( topA >= bottomB ) return false;
-    if( rightA <= leftB ) return false;
-    if( leftA >= rightB ) return false;
+    if(bottomA <= topB) return false;
+    if(topA >= bottomB) return false;
+    if(rightA <= leftB) return false;
+    if(leftA >= rightB) return false;
     
     //If none of the sides from A are outside B
     return true;
@@ -156,7 +156,7 @@ void Core::collide(Sprite& A, Sprite& B){
 
 void Core::pre_render(){
     //Clear color buffer
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClear(GL_COLOR_BUFFER_BIT);
 
     this->render();
     this->post_render();
