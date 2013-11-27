@@ -5,6 +5,7 @@ class Sound{
 		void load_sound(const char* snd_path);
 		void play();
 		void stop();
+		bool playing;
 	private:
 		Uint8 *audio_pos; // global pointer to the audio buffer to be played
 		Uint32 audio_len; // remaining length of the sample we have to play
@@ -15,7 +16,7 @@ class Sound{
 };
 
 Sound::Sound(){
-
+	playing = false;
 }
 
 Sound::~Sound(){
@@ -43,10 +44,12 @@ void Sound::load_sound(const char* snd_path){
 }
 
 void Sound::play(){
+	playing = true;
 	SDL_PauseAudio(0);
 }
 
 void Sound::stop(){
+	playing = false;
 	SDL_PauseAudio(1);
 }
 

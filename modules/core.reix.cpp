@@ -27,7 +27,7 @@ class Core{
         Core();
         void start();
         bool overlap(Entity A, Entity B);
-        void collide(Entity& A, Entity& B);
+        bool collide(Entity& A, Entity& B);
 };
 
 bool Core::initGL(){
@@ -112,8 +112,9 @@ bool Core::overlap(Entity A, Entity B){
     return true;
 }
 
-void Core::collide(Entity& A, Entity& B){
-    if(overlap(A, B)){
+bool Core::collide(Entity& A, Entity& B){
+    bool overlapping = overlap(A, B);
+    if(overlapping){
         //break apart
         //The sides of the rectangles
         float leftA, leftB;
@@ -152,6 +153,7 @@ void Core::collide(Entity& A, Entity& B){
             B.x -= left_diff;
         }
     }
+    return overlapping;
 }
 
 void Core::pre_render(){

@@ -99,20 +99,14 @@ void ThisGame::render(){
     for (int i = 0; i < MAP_HEIGHT; ++i){
         for (int j = 0; j < MAP_WIDTH; ++j){
             
-            switch(map[i][j]){
-                case 1:
-                    tiles[0].x = TILE_WIDTH * j;
-                    tiles[0].y = TILE_WIDTH * i;
-                    tiles[0].render();
-                    collide(tiles[0], player);
-                    collide(tiles[0], enemy);
-                    break;
-                case 2:
-                    tiles[1].x = TILE_WIDTH * j;
-                    tiles[1].y = TILE_WIDTH * i;
-                    tiles[1].render();
-                    collide(tiles[1], player);
-                    collide(tiles[1], enemy);
+            int tile_index = map[i][j] - 1;
+            if(tile_index >= 0){
+                tiles[tile_index].x = TILE_WIDTH * j;
+                tiles[tile_index].y = TILE_WIDTH * i;
+                tiles[tile_index].render();
+                //character collisions
+                collide(tiles[tile_index], player);
+                collide(tiles[tile_index], enemy);
             }
         }
     }
@@ -125,6 +119,7 @@ void ThisGame::render(){
     	splash_timer += fps.get_ticks();
     	splash.render();
     }else if(splash_timer < 120){
+        if(minmin.playing) minmin.stop();
     	splash_timer += fps.get_ticks();
     	title.render();
     }
